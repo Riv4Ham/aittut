@@ -301,12 +301,21 @@ function translateWord() {
     const inputText = document.getElementById('inputText').value.toLowerCase();
     const resultDiv = document.getElementById('result');
 
-    if (dictionary[inputText]) {
-        resultDiv.textContent = `Translation: ${dictionary[inputText]}`;
-    } else if (Object.values(dictionary).includes(inputText)) {
-        const englishWord = Object.keys(dictionary).find(key => dictionary[key] === inputText);
-        resultDiv.textContent = `Translation: ${englishWord}`;
-    } else {
-        resultDiv.textContent = "No translation available";
-    }
+    // Split input into words by spaces and punctuation
+    const words = inputText.split(/\s+/);
+
+    // Translate each word individually
+    const translatedWords = words.map(word => {
+        if (dictionary[word]) {
+            return dictionary[word];
+        } else if (Object.values(dictionary).includes(word)) {
+            // If the word is in Unamanda, find the English translation
+            return Object.keys(dictionary).find(key => dictionary[key] === word);
+        } else {
+            return word;  // If no translation is found, leave the word as it is
+        }
+    });
+
+    // Join the translated words back into a sentence
+    resultDiv.textContent = `Translation: ${translatedWords.join(' ')}`;
 }
