@@ -35,7 +35,6 @@ const dictionary = {
     "carry": "cargo",
     "chair": "chah (da)",
     "clear": "clara",
-    "clear": "raza",
     "coincidence": "co-inki-dance",
     "concentrate": "konsentreeren",
     "congratulations": "corngranulations",
