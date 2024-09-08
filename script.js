@@ -300,26 +300,32 @@ const dictionary = {
 function translateWord() {
     const inputText = document.getElementById('inputText').value.toLowerCase().trim();
     const resultDiv = document.getElementById('result');
+    
+    console.log("Input text:", inputText);  // Debugging: Check the raw input
 
-    // Split input into words by spaces and handle punctuation
-    const words = inputText.split(/\b/);
+    // Split input into words by spaces (for now, ignoring punctuation)
+    const words = inputText.split(/\s+/);
+    
+    console.log("Words array:", words);  // Debugging: Check the array of words
 
     // Translate each word
     const translatedWords = words.map(word => {
-        const cleanWord = word.toLowerCase().replace(/[^a-zA-Z]/g, '');  // Remove punctuation
+        const cleanWord = word.toLowerCase().replace(/[^a-zA-Z]/g, '');  // Remove punctuation for matching
+        console.log("Processing word:", cleanWord);  // Debugging: Check each word before processing
 
         if (dictionary[cleanWord]) {
-            // If English to Unamanda
-            return dictionary[cleanWord] + word.match(/[^a-zA-Z]/g)?.[0] || '';
+            console.log(`Translated ${cleanWord} to ${dictionary[cleanWord]}`);  // Debugging: Word found in English
+            return dictionary[cleanWord];  // English to Unamanda
         } else if (Object.values(dictionary).includes(cleanWord)) {
-            // If Unamanda to English
             const englishWord = Object.keys(dictionary).find(key => dictionary[key] === cleanWord);
-            return englishWord + word.match(/[^a-zA-Z]/g)?.[0] || '';
+            console.log(`Translated ${cleanWord} to ${englishWord}`);  // Debugging: Word found in Unamanda
+            return englishWord;  // Unamanda to English
         } else {
-            return word;  // If no translation, return the word as-is
+            console.log(`No translation for: ${word}`);  // Debugging: No translation found
+            return word;  // No translation, return original
         }
     });
 
     // Join the translated words back into a sentence
-    resultDiv.textContent = `Translation: ${translatedWords.join('')}`;
+    resultDiv.textContent = `Translation: ${translatedWords.join(' ')}`;
 }
