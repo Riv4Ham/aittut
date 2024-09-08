@@ -298,24 +298,28 @@ const dictionary = {
 };
 
 function translateWord() {
-    const inputText = document.getElementById('inputText').value.toLowerCase();
+    const inputText = document.getElementById('inputText').value.toLowerCase().trim();
     const resultDiv = document.getElementById('result');
 
-    // Split input into words by spaces and punctuation
-    const words = inputText.split(/\s+/);
+    // Split input into words by spaces and handle punctuation
+    const words = inputText.split(/\b/);
 
-    // Translate each word individually
+    // Translate each word
     const translatedWords = words.map(word => {
-        if (dictionary[word]) {
-            return dictionary[word];
-        } else if (Object.values(dictionary).includes(word)) {
-            // If the word is in Unamanda, find the English translation
-            return Object.keys(dictionary).find(key => dictionary[key] === word);
+        const cleanWord = word.toLowerCase().replace(/[^a-zA-Z]/g, '');  // Remove punctuation
+
+        if (dictionary[cleanWord]) {
+            // If English to Unamanda
+            return dictionary[cleanWord] + word.match(/[^a-zA-Z]/g)?.[0] || '';
+        } else if (Object.values(dictionary).includes(cleanWord)) {
+            // If Unamanda to English
+            const englishWord = Object.keys(dictionary).find(key => dictionary[key] === cleanWord);
+            return englishWord + word.match(/[^a-zA-Z]/g)?.[0] || '';
         } else {
-            return word;  // If no translation is found, leave the word as it is
+            return word;  // If no translation, return the word as-is
         }
     });
 
     // Join the translated words back into a sentence
-    resultDiv.textContent = `Translation: ${translatedWords.join(' ')}`;
+    resultDiv.textContent = `Translation: ${translatedWords.join('')}`;
 }
