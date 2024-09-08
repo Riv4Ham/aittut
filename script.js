@@ -1,6 +1,5 @@
 
 const dictionary = {
-   {
     "a": "a",
     "a": "ein",
     "a": "oon",
@@ -297,8 +296,6 @@ const dictionary = {
     "you(r)": "Ya",
     "your": "dai",
     "TRUE": "versimo"
-}
-    // Add more words as needed from the vocabulary list
 };
 
 function translateWord() {
